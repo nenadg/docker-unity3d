@@ -1,0 +1,28 @@
+version: '2'
+services:
+  unity:
+    build: .
+    ports:
+      - "5555:5555"
+      - "5900:5900"
+    tty: true
+    environment:
+      VNC_PASSWORD: pass123
+      XFB_SCREEN: 1280x800x24
+      XFB_SCREEN_DPI: 150
+    volumes:
+      - ./context:/context
+    networks:
+      unity_net:
+        ipv4_address: 172.16.250.10
+    container_name: unity-service
+networks:
+  unity_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.250.0/24
+        gateway: 172.16.250.1
